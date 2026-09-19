@@ -1,82 +1,77 @@
-direction: right
-
 classes: {
   source_tier: {
     style: {
-      fill: "#1e1e2e"
-      stroke: "#f38ba8"
+      fill: "#0f172a"
+      stroke: "#f43f5e"
       stroke-width: 2
-      font-color: "#cdd6f4"
+      font-color: "#f8fafc"
+      border-radius: 8
+    }
+  }
+  orchestrator_tier: {
+    style: {
+      fill: "#0f172a"
+      stroke: "#f59e0b"
+      stroke-width: 2
+      font-color: "#f8fafc"
+      border-radius: 8
     }
   }
   target_tier: {
     style: {
-      fill: "#1e1e2e"
-      stroke: "#a6e3a1"
+      fill: "#0f172a"
+      stroke: "#10b981"
       stroke-width: 2
-      font-color: "#cdd6f4"
+      font-color: "#f8fafc"
+      border-radius: 8
     }
   }
-  orchestrator: {
+  node_box: {
     style: {
-      fill: "#181825"
-      stroke: "#fab387"
-      stroke-width: 2
-      font-color: "#cdd6f4"
-    }
-  }
-  storage: {
-    style: {
-      fill: "#313244"
-      stroke: "#89b4fa"
-      stroke-width: 2
-      font-color: "#cdd6f4"
+      fill: "#1e293b"
+      stroke: "#334155"
+      stroke-width: 1
+      font-color: "#f8fafc"
+      border-radius: 6
     }
   }
 }
 
-title: "ADIP Enterprise Cloud Migration: 4,500 Instances to RHOSO 18" {
-  near: top-center
-  shape: text
-  style: {
-    font-size: 24
-    bold: true
-  }
-}
+grid-columns: 3
+grid-gap: 40
 
-source_cloud: "Legacy Infrastructure\n(RHOSP 16.2 / OpenStack)" {
+source: "Legacy Private Cloud\n(RHOSP 16.2 / OpenStack)" {
   class: source_tier
   
-  rhosp_cp: "RHOSP 16.2 Control Plane\n(Nova, Neutron, Keystone)"
-  legacy_vms: "4,500+ Active Virtual Instances\n(Civic & Public Services)"
-  legacy_storage: "Legacy Ceph Storage Pool" { class: storage }
+  cp: "RHOSP 16.2 Control Plane\n(Nova, Neutron, Keystone)" { class: node_box }
+  vms: "4,500+ Active Virtual Instances\n(Civic & Public Services)" { class: node_box }
+  storage: "Legacy Ceph Storage Cluster\n(Block & Object Pools)" { class: node_box }
 
-  rhosp_cp -> legacy_vms: Manages
-  legacy_vms -> legacy_storage: Volumes
+  cp -> vms: Manages
+  vms -> storage: Attached Disks
 }
 
-pipeline: "Semi-Automated Migration Orchestrator\n(Make + Python + Bash Pipeline)" {
-  class: orchestrator
+pipe: "Automated Migration Engine\n(Make + Python + os-migrate)" {
+  class: orchestrator_tier
 
-  os_migrate: "os-migrate Engine\n(Users, Networks, Quotas)"
-  batch_engine: "Batch Wave Scheduler\n(Idempotent Wave Execution)"
-  verifier: "Zero-Data-Loss Verifier\n(Pre/Post Flight Validation)"
+  extract: "1. Metadata Serialization\n(Users, Networks, Quotas)" { class: node_box }
+  waves: "2. Batch Wave Scheduler\n(Live Snapshotting & Data Sync)" { class: node_box }
+  audit: "3. Pre/Post-Flight Verifier\n(Zero-Loss Checksums & Handover)" { class: node_box }
 
-  os_migrate -> batch_engine -> verifier
+  extract -> waves: Serializes
+  waves -> audit: Replicates
 }
 
-target_cloud: "Target Sovereign Cloud\n(RHOSO 18 / OpenShift)" {
+target: "Target Sovereign Cloud\n(RHOSO 18 / OpenShift OKD)" {
   class: target_tier
 
-  rhoso_cp: "RHOSO 18 on OpenShift (OKD)\n(Container-Native Control Plane)"
-  target_vms: "Modernized Tenant Workloads\n(CentOS Stream / RHEL 9)"
-  ceph9: "Red Hat Ceph Storage 9\n(High-Throughput ODF Pools)" { class: storage }
+  rhoso: "RHOSO 18 on OpenShift\n(Container-Native Control Plane)" { class: node_box }
+  modern_vms: "Modernized Tenant Workloads\n(CentOS Stream / RHEL 9)" { class: node_box }
+  ceph9: "Red Hat Ceph Storage 9\n(Distributed ODF Storage Fabric)" { class: node_box }
 
-  rhoso_cp -> target_vms: Orchestrates
-  target_vms -> ceph9: Persistent Volumes
+  rhoso -> modern_vms: Orchestrates
+  modern_vms -> ceph9: Persistent Volumes
 }
 
-# Pipeline Connections
-source_cloud.rhosp_cp -> pipeline.os_migrate: "Extracts Metadata\n(Minutes)"
-source_cloud.legacy_storage -> target_cloud.ceph9: "Live Volume Sync\n(Ceph Pool Replication)"
-pipeline.verifier -> target_cloud.rhoso_cp: "Provisions & Validates\n(80% Labor Reduction)"
+source -> pipe: "Extracts State"
+pipe -> target: "Deploys & Verifies"

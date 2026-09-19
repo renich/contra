@@ -1,68 +1,77 @@
-direction: right
-
 classes: {
-  gcp_sdn: {
+  gcp_tier: {
     style: {
-      fill: "#181825"
-      stroke: "#89b4fa"
+      fill: "#0f172a"
+      stroke: "#38bdf8"
       stroke-width: 2
-      font-color: "#cdd6f4"
+      font-color: "#f8fafc"
+      border-radius: 8
     }
   }
-  openstack_cp: {
+  routing_tier: {
     style: {
-      fill: "#1e1e2e"
-      stroke: "#fab387"
+      fill: "#0f172a"
+      stroke: "#f59e0b"
       stroke-width: 2
-      font-color: "#cdd6f4"
+      font-color: "#f8fafc"
+      border-radius: 8
     }
   }
-  overlay_hack: {
+  openstack_tier: {
     style: {
-      fill: "#313244"
-      stroke: "#a6e3a1"
+      fill: "#0f172a"
+      stroke: "#10b981"
       stroke-width: 2
-      font-color: "#cdd6f4"
+      font-color: "#f8fafc"
+      border-radius: 8
+    }
+  }
+  node_box: {
+    style: {
+      fill: "#1e293b"
+      stroke: "#334155"
+      stroke-width: 1
+      font-color: "#f8fafc"
+      border-radius: 6
     }
   }
 }
 
-title: "Modelyo HA OpenStack Control Plane on GCP VPC: L2/L3 Routing Solution" {
-  near: top-center
-  shape: text
-  style: {
-    font-size: 22
-    bold: true
-  }
+grid-columns: 3
+grid-gap: 40
+
+gcp_sdn: "GCP VPC Software-Defined Network\n(No Native L2 Broadcast / No VIPs)" {
+  class: gcp_tier
+  
+  ilb: "GCP Internal Load Balancer (ILB)\n(Multi-Zone Health Probes)" { class: node_box }
+  routes: "GCP Custom Route Tables\n(Next-Hop Static VIP Routes)" { class: node_box }
+  vpc_net: "GCP Regional VPC Subnets\n(High-Bandwidth Inter-Zone Network)" { class: node_box }
+
+  ilb -> routes: Failover
+  routes -> vpc_net: Ingress
 }
 
-gcp_vpc: "GCP VPC Software-Defined Network (No L2 Broadcast / No VIPs)" {
-  class: gcp_sdn
+routing_layer: "Kernel Routing & Adapter Layer\n(Bypasses GCP L2 SDN Drop)" {
+  class: routing_tier
 
-  ilb: "GCP Internal Load Balancer (ILB)\n(Multi-Zone Health Checks)"
-  routes: "GCP Custom Route Tables\n(Next-Hop Instance Routing)"
-  ilb -> routes: "Sub-Second Backend Failover"
+  dummy: "Linux Dummy Interfaces (dummy0)\n(Local VIP Binding on Host)" { class: node_box }
+  policy: "Advanced Policy Routing\n(Custom ip rule & ip route Tables)" { class: node_box }
+  probes: "Health-Check Response Probes\n(Sub-Second Failover Signal)" { class: node_box }
+
+  dummy -> policy: VIP Packets
+  policy -> probes: Status
 }
 
-routing_layer: "Kernel Routing & Dummy Interface Adaptation Layer" {
-  class: overlay_hack
+control_plane: "HA OpenStack Control Plane\n(CentOS Stream 10 / Rootless Podman)" {
+  class: openstack_tier
 
-  dummy_net: "Linux Dummy Interfaces (dummy0)\n(Simulated VIP Binding)"
-  ip_rules: "Policy Routing (ip rule / ip route)\n(Bypasses GCP ARP/L2 Drop)"
-  dummy_net -> ip_rules: "Local VIP Packet Processing"
+  node1: "Controller 01 (Active Leader)\n(Keystone, Nova, Neutron API)" { class: node_box }
+  node2: "Controller 02 (Hot Standby)\n(Galera DB, RabbitMQ Quorum)" { class: node_box }
+  node3: "Controller 03 (Hot Standby)\n(State Synchronization & Arbiter)" { class: node_box }
+
+  node1 <-> node2
+  node2 <-> node3
 }
 
-controllers: "HA OpenStack Control Plane (CentOS Stream 10)" {
-  class: openstack_cp
-
-  node1: "Controller 01 (Active)\n(Keystone, Nova, Neutron API)"
-  node2: "Controller 02 (Standby)\n(Galera DB, RabbitMQ Cluster)"
-  node3: "Controller 03 (Standby)\n(State Synchronization)"
-
-  node1 <-> node2 <-> node3: "Quorum & State Replication"
-}
-
-gcp_vpc.ilb -> controllers.node1: "Active Health Probe (Pass)"
-gcp_vpc.ilb -> controllers.node2: "Standby Health Probe (Pass)"
-controllers.node1 -> routing_layer.dummy_net: "Binds VIP to dummy0"
-routing_layer.ip_rules -> controllers.node1: "Processes Inbound Requests"
+gcp_sdn -> routing_layer: "L3 Health Checks & Traffic"
+routing_layer -> control_plane: "Dispatched API Requests"
