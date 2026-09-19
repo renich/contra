@@ -16,8 +16,9 @@ This repository governs the independent consulting, systems architecture, and en
 1. **Anti-Sycophancy & Direct Engineering**:
    - Scrutinize client requirements critically. Expose missing specs, unstated assumptions, and unrealistic timelines before contract signing.
    - Every proposal must define explicit **In-Scope** deliverables and unambiguous **Out-of-Scope** boundaries.
-2. **Formatting Standard**:
+2. **Formatting & Documentation Standard**:
    - **NEVER use spaces around forward slashes**. Always write `word/word` (e.g. `fixed-price/retainer`, `SRE/DevOps`, `Linux/Fedora`, `inbound/outbound`, `audit/assessment`).
+   - **All documentation MUST be in reStructuredText (`.rst`)** format (following Sphinx/docutils standards, exact header overline/underline lengths, 3-space indentation, no `:caption:`). Only `GEMINI.md` and agent configuration remain in Markdown (`.md`).
 3. **Memory & State Tracking (PJP)**:
    - Use `ajourn` (`pjp`) for all persistent project memory, state transitions, and architectural decisions.
    - Do NOT micro-log routine shell commands; log only knowledge deltas, client discoveries, and strategy decisions.
@@ -29,14 +30,15 @@ This repository governs the independent consulting, systems architecture, and en
 ```text
 /home/renich/ai/contra/
 ├── GEMINI.md               # Project-level operating manual and wisdom store
-├── services/               # Packaged service definitions, deliverables & pricing
-├── case-studies/           # Portfolio case studies and technical postmortems
-├── proposals/              # Proposal templates, intake rubrics, and SOW boilerplate
-│   ├── intake-rubric.md    # Fast 5-minute lead qualification checklist
-│   └── sow-template.md     # Modular scope of work template
-├── clients/                # Per-client project tracking and contract dossiers
+├── contra-profile.rst      # Master positioning copy, bio, and service directory
+├── services/               # Packaged service definitions, deliverables & pricing (.rst)
+├── case-studies/           # Portfolio case studies and technical postmortems (.rst)
+├── proposals/              # Proposal templates, intake rubrics, and SOW boilerplate (.rst)
+│   ├── intake-rubric.rst   # Fast 5-minute lead qualification checklist
+│   └── sow-template.rst    # Modular scope of work template
+├── clients/                # Per-client project tracking and contract dossiers (.rst)
 │   └── _template/          # Base skeleton for newly onboarded clients
-└── scripts/                # Automation, scrapers, CLI helpers, and dispatch tools
+└── scripts/                # Automation, scrapers, CLI helpers, and dispatch tools (.bash)
 ```
 
 ---
@@ -60,7 +62,7 @@ flowchart LR
 - Filter out micromanagers or vague "build me an app" briefs lacking clear ownership.
 
 ### 2. Proposal & SOW Drafting
-- Proposals live under `clients/<client-name>/proposal.md`.
+- Proposals live under `clients/<client-name>/proposal.rst`.
 - Always itemize:
   - **Context & Problem Statement**: What is broken or missing.
   - **Proposed Architecture / Solution**: High-level technical approach.
