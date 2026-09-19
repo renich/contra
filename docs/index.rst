@@ -26,6 +26,10 @@ Documentation Index
    
    Platform-specific mechanics: Projects vs. Services vs. Inquiries, escrow workflows, payment terms, and profile ranking optimization.
 
+#. `Contra Model Context Protocol (MCP) Integration <contra-mcp-integration.rst>`_
+   
+   Hosted remote MCP server endpoint (``https://contra.com/mcp``), OAuth authentication, 60+ tools capability matrix, and AI automation workflows.
+
 Operational Primitives
 ======================
 

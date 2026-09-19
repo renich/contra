@@ -34,7 +34,8 @@ This repository governs the independent consulting, systems architecture, and en
 ├── docs/                   # Partnership documentation, media strategy, guides (.rst)
 │   ├── index.rst           # Documentation root manual
 │   ├── visual-media-strategy.rst # Media, D2 diagrams, GIF/video strategy
-│   └── contra-platform-guide.rst # Contra escrow, services, and profile playbook
+│   ├── contra-platform-guide.rst # Contra escrow, services, and profile playbook
+│   └── contra-mcp-integration.rst # Official Contra MCP server setup and tool usage
 ├── assets/                 # Generated and source media assets
 │   └── diagrams/           # Declarative D2 source (.d2) and compiled SVG/PNG
 ├── services/               # Packaged service definitions, deliverables & pricing (.rst)
