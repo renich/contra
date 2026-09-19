@@ -126,24 +126,6 @@ Packaged Services
    * *Timeline*: 2–3 weeks
    * *Deliverable*: 100% non-destructive migration with sub-60-second fallback, CentOS Stream 10 KVM/libvirt hypervisors, 35%+ net TCO savings, $0 license fees forever.
 
-Digital Products & Toolkits
-===========================
-
-#. `VMware-to-KVM Migration Blueprint & Automation Toolkit <products/vmware-to-kvm-migration-toolkit.rst>`_
-   
-   * *Price*: $295.00 (One-Time)
-   * *Deliverable*: Sizing calculators, virt-v2v conversion orchestrator scripts, CentOS Stream 10 hypervisor playbooks, disaster recovery runbooks.
-
-#. `Hardened CentOS Stream 10 & Podman Production Baseline <products/hardened-centos-stream-10-baseline.rst>`_
-   
-   * *Price*: $195.00 (One-Time)
-   * *Deliverable*: Anaconda Kickstart profiles, CIS-aligned SELinux policies, systemd Quadlet definitions, OpenSCAP verification test suite.
-
-#. `Sovereign Forgejo & CI/CD Runner Platform Kit <products/sovereign-forgejo-runner-stack.rst>`_
-   
-   * *Price*: $149.00 (One-Time)
-   * *Deliverable*: Declarative Quadlet stacks, Act Runner sandboxes, Caddy TLS reverse proxy, automated backup and point-in-time recovery scripts.
-
 Verifications & External Links
 ==============================
 
