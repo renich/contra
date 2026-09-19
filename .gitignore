@@ -1,0 +1,11 @@
+# OS / Editor artifacts
+*.swp
+*~
+.DS_Store
+.idea/
+.vscode/
+
+# Local scratches & logs
+scratch/
+*.log
+*.tmp
