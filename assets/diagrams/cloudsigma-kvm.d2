@@ -1,0 +1,68 @@
+direction: down
+
+classes: {
+  global_tier: {
+    style: {
+      fill: "#181825"
+      stroke: "#89dceb"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  hypervisor_tier: {
+    style: {
+      fill: "#1e1e2e"
+      stroke: "#f38ba8"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  storage_tier: {
+    style: {
+      fill: "#313244"
+      stroke: "#a6e3a1"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+}
+
+title: "CloudSigma Global Virtualization Fleet: 150,000+ VMs & Podman S3 Storage" {
+  near: top-center
+  shape: text
+  style: {
+    font-size: 22
+    bold: true
+  }
+}
+
+global_fleet: "Global Datacenter Footprint (10 Datacenters / ~20 Regions)" {
+  class: global_tier
+  dc1: "North America Datacenters"
+  dc2: "Europe & Middle East Datacenters"
+  dc3: "Asia-Pacific Datacenters"
+}
+
+hypervisors: "Hardened KVM / QEMU Hypervisor Hosts (99.95% Availability)" {
+  class: hypervisor_tier
+  kvm: "KVM Kernel Module & Libvirt Daemon\n(CPU Pinning, Hugepages, Scheduler Tuning)"
+  selinux: "SELinux Multi-Tenant Isolation\n(Strict Type Enforcement / Zero VM Escape)"
+  vms: "150,000+ Active Tenant VMs\n(Multi-Tenant Workload Density)"
+
+  kvm -> selinux -> vms
+}
+
+storage: "Distributed S3 Object Storage Cluster" {
+  class: storage_tier
+  podman: "Podman Managed Minio Daemons\n(+40% Request Throughput vs Legacy Docker)"
+  fs: "High-Throughput Storage Fabric\n(Ceph / GlusterFS / ZFS)"
+  net: "10GbE / 40GbE Bonded Ingress\n(Jumbo Frames MTU 9000 & TCP Optimization)"
+
+  podman -> fs
+  net -> podman
+}
+
+global_fleet.dc1 -> hypervisors: "Deploys to"
+global_fleet.dc2 -> hypervisors: "Deploys to"
+global_fleet.dc3 -> hypervisors: "Deploys to"
+hypervisors.vms -> storage.podman: "S3 API Storage Requests"

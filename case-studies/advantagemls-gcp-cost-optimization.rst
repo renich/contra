@@ -17,6 +17,10 @@ With expanding tenant volume, monthly Google Cloud Platform bills were escalatin
 Architectural Solution & Strategy
 =================================
 
+.. image:: ../assets/diagrams/advantagemls-gcp.svg
+   :alt: AdvantageMLS GCP Cloud Cost Optimization Architecture
+   :align: center
+
 Infrastructure-as-Code Migration
 --------------------------------
 

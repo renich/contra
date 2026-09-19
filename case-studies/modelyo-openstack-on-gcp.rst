@@ -20,6 +20,10 @@ However, nesting OpenStack within GCP introduces severe architectural impediment
 Architectural Solution & Strategy
 =================================
 
+.. image:: ../assets/diagrams/modelyo-openstack-gcp.svg
+   :alt: Modelyo HA OpenStack Control Plane on GCP VPC Architecture
+   :align: center
+
 L2/L3 Network Impedance Resolution
 ----------------------------------
 

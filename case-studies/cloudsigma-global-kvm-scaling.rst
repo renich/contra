@@ -21,6 +21,10 @@ Key imperatives included:
 Architectural Solution & Strategy
 =================================
 
+.. image:: ../assets/diagrams/cloudsigma-kvm.svg
+   :alt: CloudSigma Global Virtualization Fleet Architecture
+   :align: center
+
 Hypervisor Fleet Engineering (KVM/QEMU & Libvirt)
 -------------------------------------------------
 

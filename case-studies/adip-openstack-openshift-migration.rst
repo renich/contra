@@ -19,6 +19,10 @@ The primary obstacle: standard manual migration pathways would have required tho
 Architectural Solution & Strategy
 =================================
 
+.. image:: ../assets/diagrams/adip-migration.svg
+   :alt: ADIP OpenStack to OpenShift Migration Architecture
+   :align: center
+
 Control Plane & Metadata Migration
 ----------------------------------
 

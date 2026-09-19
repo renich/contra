@@ -1,0 +1,83 @@
+direction: down
+
+classes: {
+  edge_tier: {
+    style: {
+      fill: "#1e1e2e"
+      stroke: "#89dceb"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  compute_tier: {
+    style: {
+      fill: "#1e1e2e"
+      stroke: "#a6e3a1"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  iac_tier: {
+    style: {
+      fill: "#181825"
+      stroke: "#f9e2af"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  db_tier: {
+    style: {
+      fill: "#313244"
+      stroke: "#cba6f7"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+}
+
+title: "AdvantageMLS Cloud Architecture: 35% Spend Cut & Zero-Downtime OS Modernization" {
+  near: top-center
+  shape: text
+  style: {
+    font-size: 22
+    bold: true
+  }
+}
+
+users: "Concurrent Real Estate Brokers & Public Traffic" {
+  shape: person
+}
+
+edge: "Cloud Edge & Optimization Tier" {
+  class: edge_tier
+  cdn: "Google Cloud CDN & Ingress\n(Edge Caching >85% Hit Ratio)"
+  lb: "Cloud Load Balancers (HTTPS)\n(SSL Termination & Path Routing)"
+  cdn -> lb: "Cached Media & API Requests"
+}
+
+compute: "Production Compute Fleet (CentOS Stream 10)" {
+  class: compute_tier
+  vanity: "Vanity Sites Cluster\n(SELinux Enforcing / Minimal Attack Surface)"
+  api: "Real-Time MLS Data Sync APIs\n(Optimized Machine Families)"
+  lifecycle: "Automated Instance Lifecycle Scheduler\n(Zero Idle Non-Prod Spend)"
+}
+
+storage_tier: "Data & Storage Persistence" {
+  class: db_tier
+  db: "Managed Database Backend\n(Failover Routes & Point-In-Time Recovery)"
+  assets: "Cloud Storage (GCS)\n(Lifecycle Rules / Coldline Archival)"
+}
+
+iac: "Declarative Infrastructure as Code (OpenTofu)" {
+  class: iac_tier
+  tofu: "Modular OpenTofu IaC\n(Drift Detection & State Locking)"
+  ci: "GitLab CI Automated Deployment\n(Zero-Downtime Rolling Canaries)"
+  tofu -> ci: "Enforces Target State"
+}
+
+users -> edge.cdn: "HTTPS / TLS Requests"
+edge.lb -> compute.vanity: "Web Traffic"
+edge.lb -> compute.api: "API Traffic"
+compute.api -> storage_tier.db: "Transactional Writes"
+compute.vanity -> storage_tier.assets: "Media Fetch"
+iac.ci -> compute: "Zero-Downtime Canary Updates\n(CentOS 7/8 -> Stream 10)"

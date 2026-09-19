@@ -1,0 +1,82 @@
+direction: right
+
+classes: {
+  source_tier: {
+    style: {
+      fill: "#1e1e2e"
+      stroke: "#f38ba8"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  target_tier: {
+    style: {
+      fill: "#1e1e2e"
+      stroke: "#a6e3a1"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  orchestrator: {
+    style: {
+      fill: "#181825"
+      stroke: "#fab387"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+  storage: {
+    style: {
+      fill: "#313244"
+      stroke: "#89b4fa"
+      stroke-width: 2
+      font-color: "#cdd6f4"
+    }
+  }
+}
+
+title: "ADIP Enterprise Cloud Migration: 4,500 Instances to RHOSO 18" {
+  near: top-center
+  shape: text
+  style: {
+    font-size: 24
+    bold: true
+  }
+}
+
+source_cloud: "Legacy Infrastructure\n(RHOSP 16.2 / OpenStack)" {
+  class: source_tier
+  
+  rhosp_cp: "RHOSP 16.2 Control Plane\n(Nova, Neutron, Keystone)"
+  legacy_vms: "4,500+ Active Virtual Instances\n(Civic & Public Services)"
+  legacy_storage: "Legacy Ceph Storage Pool" { class: storage }
+
+  rhosp_cp -> legacy_vms: Manages
+  legacy_vms -> legacy_storage: Volumes
+}
+
+pipeline: "Semi-Automated Migration Orchestrator\n(Make + Python + Bash Pipeline)" {
+  class: orchestrator
+
+  os_migrate: "os-migrate Engine\n(Users, Networks, Quotas)"
+  batch_engine: "Batch Wave Scheduler\n(Idempotent Wave Execution)"
+  verifier: "Zero-Data-Loss Verifier\n(Pre/Post Flight Validation)"
+
+  os_migrate -> batch_engine -> verifier
+}
+
+target_cloud: "Target Sovereign Cloud\n(RHOSO 18 / OpenShift)" {
+  class: target_tier
+
+  rhoso_cp: "RHOSO 18 on OpenShift (OKD)\n(Container-Native Control Plane)"
+  target_vms: "Modernized Tenant Workloads\n(CentOS Stream / RHEL 9)"
+  ceph9: "Red Hat Ceph Storage 9\n(High-Throughput ODF Pools)" { class: storage }
+
+  rhoso_cp -> target_vms: Orchestrates
+  target_vms -> ceph9: Persistent Volumes
+}
+
+# Pipeline Connections
+source_cloud.rhosp_cp -> pipeline.os_migrate: "Extracts Metadata\n(Minutes)"
+source_cloud.legacy_storage -> target_cloud.ceph9: "Live Volume Sync\n(Ceph Pool Replication)"
+pipeline.verifier -> target_cloud.rhoso_cp: "Provisions & Validates\n(80% Labor Reduction)"

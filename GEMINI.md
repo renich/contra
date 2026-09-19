@@ -31,6 +31,12 @@ This repository governs the independent consulting, systems architecture, and en
 /home/renich/ai/contra/
 ├── GEMINI.md               # Project-level operating manual and wisdom store
 ├── contra-profile.rst      # Master positioning copy, bio, and service directory
+├── docs/                   # Partnership documentation, media strategy, guides (.rst)
+│   ├── index.rst           # Documentation root manual
+│   ├── visual-media-strategy.rst # Media, D2 diagrams, GIF/video strategy
+│   └── contra-platform-guide.rst # Contra escrow, services, and profile playbook
+├── assets/                 # Generated and source media assets
+│   └── diagrams/           # Declarative D2 source (.d2) and compiled SVG/PNG
 ├── services/               # Packaged service definitions, deliverables & pricing (.rst)
 ├── case-studies/           # Portfolio case studies and technical postmortems (.rst)
 ├── proposals/              # Proposal templates, intake rubrics, and SOW boilerplate (.rst)
