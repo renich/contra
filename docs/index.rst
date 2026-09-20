@@ -30,6 +30,14 @@ Documentation Index
    
    Hosted remote MCP server endpoint (``https://contra.com/mcp``), OAuth authentication, 60+ tools capability matrix, and AI automation workflows.
 
+#. `Consulting & Engineering Operations Workflow Manual <consulting-engineering-workflow.rst>`_
+   
+   End-to-end operational protocol: Chronicle telemetry ingestion, fixed-scope service packaging, 3D systems art, automated OAuth self-healing, and PJP persistence.
+
+#. `Weekly Engineering Dispatch (Week 38, 2026) <weekly-dispatch-2026-w38.rst>`_
+   
+   Verified telemetry dispatch: 326 commits authored, micros microkernel hardening, Crystal v1.21.0 modernizations, and Contra platform deployment.
+
 Operational Primitives
 ======================
 
