@@ -12,7 +12,9 @@ import urllib.request
 import urllib.error
 
 TOKEN_PATH = os.path.expanduser("~/.gemini/antigravity-cli/mcp_oauth_tokens.json")
+MCP_CONFIG_PATH = os.path.expanduser("~/.gemini/config/mcp_config.json")
 MCP_URL = "https://contra.com/mcp"
+TOKEN_ENDPOINT = "https://contra.com/api/mcp/oauth/token"
 
 def get_token():
     if not os.path.exists(TOKEN_PATH):
@@ -26,7 +28,53 @@ def get_token():
         sys.exit(1)
     return token
 
-def call_tool(tool_name, arguments=None):
+def refresh_oauth_token():
+    if not os.path.exists(TOKEN_PATH):
+        return None
+    with open(TOKEN_PATH) as f:
+        data = json.load(f)
+    c = data.get("contra", {})
+    client_id = c.get("client_id")
+    refresh_token = c.get("refresh_token")
+    if not client_id or not refresh_token:
+        return None
+
+    payload = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": client_id
+    }
+    req = urllib.request.Request(
+        TOKEN_ENDPOINT,
+        data=urllib.parse.urlencode(payload).encode("utf-8"),
+        headers={"Content-Type": "application/x-www-form-urlencoded"}
+    )
+    try:
+        with urllib.request.urlopen(req) as resp:
+            res = json.loads(resp.read().decode("utf-8"))
+            new_access = res.get("access_token")
+            new_refresh = res.get("refresh_token", refresh_token)
+            c["access_token"] = new_access
+            c["refresh_token"] = new_refresh
+            data["contra"] = c
+            with open(TOKEN_PATH, "w") as f:
+                json.dump(data, f, indent=2)
+            if os.path.exists(MCP_CONFIG_PATH):
+                try:
+                    with open(MCP_CONFIG_PATH) as cf:
+                        cfg = json.load(cf)
+                    if "mcpServers" in cfg and "contra" in cfg["mcpServers"]:
+                        cfg["mcpServers"]["contra"]["headers"]["Authorization"] = f"Bearer {new_access}"
+                        with open(MCP_CONFIG_PATH, "w") as cf:
+                            json.dump(cfg, cf, indent=2)
+                except Exception:
+                    pass
+            return new_access
+    except Exception as e:
+        sys.stderr.write(f"Token refresh failed: {e}\n")
+        return None
+
+def call_tool(tool_name, arguments=None, retried=False):
     token = get_token()
     payload = {
         "jsonrpc": "2.0",
@@ -53,6 +101,10 @@ def call_tool(tool_name, arguments=None):
                 if line.startswith("data: "):
                     return json.loads(line[6:])
     except urllib.error.HTTPError as e:
+        if e.code == 401 and not retried:
+            sys.stderr.write("401 Unauthorized received. Automatically refreshing OAuth token...\n")
+            if refresh_oauth_token():
+                return call_tool(tool_name, arguments, retried=True)
         sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
         sys.exit(1)
     except Exception as e:
