@@ -126,6 +126,36 @@ Packaged Services
    * *Timeline*: 2–3 weeks
    * *Deliverable*: 100% non-destructive migration with sub-60-second fallback, CentOS Stream 10 KVM/libvirt hypervisors, 35%+ net TCO savings, $0 license fees forever.
 
+#. `Cloud FinOps & Infrastructure Cost Optimization Sprint <services/cloud-cost-optimization.rst>`_
+   
+   * *Format*: Fixed Scope ($4,500)
+   * *Timeline*: 2 weeks
+   * *Deliverable*: p99 utilization rightsizing, CDN edge caching re-architecture, OpenTofu IaC modularization, 25%–40% monthly cloud bill reduction.
+
+#. `High-Availability Database Cluster Deployment & Hardening <services/ha-database-clustering.rst>`_
+   
+   * *Format*: Fixed Scope ($5,000)
+   * *Timeline*: 2 weeks
+   * *Deliverable*: Multi-node PostgreSQL (Patroni/pgBouncer) or MariaDB Galera cluster on CentOS Stream 10, automated sub-second failover, continuous WAL S3 backups, PITR drill.
+
+#. `Zero-Trust Remote Access & Identity-Aware Architecture <services/zero-trust-infrastructure.rst>`_
+   
+   * *Format*: Fixed Scope ($4,500)
+   * *Timeline*: 2 weeks
+   * *Deliverable*: Identity-Aware Proxy (IAP) deployment, WireGuard mesh micro-segmentation, corporate MFA/SSO integration, elimination of perimeter VPN listeners.
+
+#. `Production Observability & SRE Telemetry Platform <services/production-observability-telemetry.rst>`_
+   
+   * *Format*: Fixed Scope ($3,500)
+   * *Timeline*: 1–2 weeks
+   * *Deliverable*: Production Prometheus, Grafana, Alertmanager on CentOS Stream 10, Golden Signal SLO dashboards, journald structured logging, alert noise suppression.
+
+#. `Sovereign Enterprise Mail Server & exu Suite Deployment <services/sovereign-enterprise-mail-exu.rst>`_
+   
+   * *Format*: Fixed Scope ($3,000)
+   * *Timeline*: 1 week
+   * *Deliverable*: Statically compiled exu Suite (Crystal) with Exim & Dovecot on CentOS Stream 10, SPA web dashboard with mTLS client auth, automated 2048-bit DKIM rotation, 10/10 deliverability.
+
 Verifications & External Links
 ==============================
 

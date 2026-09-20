@@ -10,3 +10,4 @@ scratch/
 *.log
 *.tmp
 __pycache__/
+prepared_drafts.json
