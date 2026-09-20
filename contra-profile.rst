@@ -156,6 +156,36 @@ Packaged Services
    * *Timeline*: 1 week
    * *Deliverable*: Statically compiled exu Suite (Crystal) with Exim & Dovecot on CentOS Stream 10, SPA web dashboard with mTLS client auth, automated 2048-bit DKIM rotation, 10/10 deliverability.
 
+#. `Enterprise RPM Packaging, GPG Signing & Automated DNF Repositories <services/rpm-packaging-dnf-repos.rst>`_
+   
+   * *Format*: Fixed Scope ($4,000)
+   * *Timeline*: 1 week
+   * *Deliverable*: Clean Mock/Koji chroot builds, automated GPG 4096-bit signing, createrepo_c repomd catalogs, hardened Nginx/Caddy distribution, rsync mirrors.
+
+#. `Enterprise FreeIPA HA & Centralized PKI/CA Infrastructure <services/freeipa-ha-pki-ca.rst>`_
+   
+   * *Format*: Fixed Scope ($5,500)
+   * *Timeline*: 2 weeks
+   * *Deliverable*: Multi-master HA FreeIPA domain, Dogtag PKI Root/Sub-CA, SSSD client automation, centralized HBAC/sudo governance, certmonger auto-renewal.
+
+#. `High-Availability Ingress & Hardened Reverse Proxies: HAProxy & Caddy <services/ha-ingress-hardened-proxies.rst>`_
+   
+   * *Format*: Fixed Scope ($3,500)
+   * *Timeline*: 1 week
+   * *Deliverable*: Keepalived VRRP active-passive/active-active VIP pair, HAProxy L4/L7 engine with stick-tables, Caddy TLS 1.3/mTLS automation, Prometheus metrics.
+
+#. `Custom Linux Distribution & Immutable OS Engineering: mkosi & UKI <services/custom-linux-distro-immutable-os.rst>`_
+   
+   * *Format*: Fixed Scope ($6,000)
+   * *Timeline*: 2 weeks
+   * *Deliverable*: Declarative mkosi build pipeline, signed Unified Kernel Images (UKI), dm-verity read-only root, TPM2 SecureBoot sealing, systemd-sysext.
+
+#. `Core Sovereign Network Services: BIND9 DNSSEC, Kea DHCP & Chrony NTP <services/core-network-services-dns-dhcp-ntp.rst>`_
+   
+   * *Format*: Fixed Scope ($3,500)
+   * *Timeline*: 1 week
+   * *Deliverable*: Split-horizon BIND9 with automated DNSSEC KASP signing, active-active Kea DHCP with PostgreSQL backend & TSIG DDNS, Stratum-1 Chrony NTP.
+
 Verifications & External Links
 ==============================
 
